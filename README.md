@@ -1,4 +1,11 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# tRIF Faucet
+
+## Configuration file
+
+Under `/src/config.json` file, configure the token contract under `rif` key, and the faucet contract address under `faucet` key.
+
+A sample faucet contract can be found in the Github Repository ["rif-faucet"](https://github.com/riflabs/rif-faucet).
+
 
 ## Available Scripts
 

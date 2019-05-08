@@ -1,3 +1,4 @@
+import config from './config.json'
 import { requestBalance, receiveBalance, requestDispense, errorDispense, receiveDispense } from './actions';
 
 export const getBalance = () => dispatch => {
@@ -23,10 +24,10 @@ export const getBalance = () => dispatch => {
       'stateMutability': 'view',
       'type': 'function'
     }
-  ]).at('0xd8c5adcac8d465c5a2d0772b86788e014ddec516');
+  ]).at(config.rif);
 
   return new Promise(resolve => {
-    return rif.balanceOf('0xa98d30d3436f24886e0dd4bd440666dd1d140d5c', (err, res) => {
+    return rif.balanceOf(config.faucet, (err, res) => {
       const tokens = window.web3.fromWei(res.toNumber())
       if (!err) return resolve(dispatch(receiveBalance(tokens)));
     });

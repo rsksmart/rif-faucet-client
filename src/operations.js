@@ -1,9 +1,11 @@
 import config from './config.json'
 import { requestBalance, receiveBalance, requestDispense, errorDispense, receiveDispense } from './actions';
 
+
 export const getBalance = () => dispatch => {
   dispatch(requestBalance());
 
+  
   const rif = window.web3 && window.web3.eth.contract([
     {
       'constant': true,

@@ -1,4 +1,5 @@
 {
     "rif": "0xd8c5adcac8d465c5a2d0772b86788e014ddec516",
-    "faucet": "0xa98d30d3436f24886e0dd4bd440666dd1d140d5c"
+    "faucet": "0xa98d30d3436f24886e0dd4bd440666dd1d140d5c",
+    "networkId": "31"
 }

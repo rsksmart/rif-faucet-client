@@ -45,7 +45,7 @@ class App extends Component {
             </Alert>
               <p>
                 faucet balance: {gettingBalance ? '...' : balance} tRIF 
-                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }}>reolad</Button>)
+                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }}>reload</Button>)
               </p>
             </Col>
           </Row>

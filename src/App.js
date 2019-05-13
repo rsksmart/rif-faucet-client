@@ -12,7 +12,7 @@ class App extends Component {
 
   render () {
     const { gettingBalance, balance, getBalance, dispense, dispensing, errorDispense, txDispense } = this.props;
-    const showNetworkAlert = window.ethereum.networkVersion !== config.networkId;
+    const showNetworkAlert = window.ethereum && (window.ethereum.networkVersion !== config.networkId);
 
     return (
       <div>

@@ -1,12 +1,12 @@
 import config from './config.json'
 import { requestBalance, receiveBalance, requestDispense, errorDispense, receiveDispense } from './actions';
 
-
 export const getBalance = () => dispatch => {
   dispatch(requestBalance());
 
-  
-  const rif = window.web3 && window.web3.eth.contract([
+  if (!window.web3 || window.ethereum.networkVersion !== config.networkId) return dispatch(receiveBalance('-'));
+
+  const rif = window.web3.eth.contract([
     {
       'constant': true,
       'inputs': [
@@ -38,6 +38,8 @@ export const getBalance = () => dispatch => {
 
 export const dispense = () => dispatch => {
   dispatch(requestDispense());
+
+  if (!window.web3 || window.ethereum.networkVersion !== config.networkId) return dispatch(errorDispense('Connect to RSK Testnet'));
 
   return new Promise(resolve => {
     return window.ethereum && window.ethereum.enable()

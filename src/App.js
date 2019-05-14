@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import 'bootstrap/dist/css/bootstrap.css';
-import config from './config.json'
+import config from './config.json';
 import { Alert, Navbar, Nav, Container, Row, Col, Button, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
-import logo from './logo.svg'
+import logo from './logo.svg';
 
 class App extends Component {
   componentDidMount () {
@@ -12,7 +12,10 @@ class App extends Component {
 
   render () {
     const { gettingBalance, balance, getBalance, dispense, dispensing, errorDispense, txDispense } = this.props;
-    const showNetworkAlert = window.ethereum && (window.ethereum.networkVersion !== config.networkId);
+
+    const showMetamaskAlert = !window.ethereum;
+    const showNetworkAlert =  !showMetamaskAlert && (window.ethereum && (window.ethereum.networkVersion !== config.networkId));
+    const actionsDisabled = showMetamaskAlert || showNetworkAlert;
 
     return (
       <div>
@@ -26,45 +29,50 @@ class App extends Component {
           </Navbar.Collapse>
         </Navbar>
         <Container style={{ textAlign: 'center' }}>
-        <Row>
+          <Row>
             <Col>
-              <h5>Get tRIF tokens and test your RIFOS implementations.</h5>
+              <h5>Get tRIF tokens and test your RIFOS implementations</h5>
             </Col>
           </Row>
           <Row>
             <Col>
-            <Alert variant="warning" show={showNetworkAlert}>
-              <Alert.Heading>Connect to RSK Testnet network.</Alert.Heading>
+              <Alert variant="warning" show={showMetamaskAlert}>
+                <Alert.Heading>Get Metamask wallet</Alert.Heading>
+                <p>
+                  <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>Download Metamask</a>
+                </p>
+              </Alert>
+              <Alert variant="warning" show={showNetworkAlert}>
+                <Alert.Heading>Connect to RSK Testnet network.</Alert.Heading>
+                <p>
+                  The tRIF faucet dispense RIF Tokens only in RSK testnet.
+                </p>
+                <hr />
+                <p className="mb-0">
+                  Connect Metamask to an RSK Testnet node. No node? Use the <a href="https://nodes.rsk.co" target="_blank" rel='noopener noreferrer'>public nodes</a>.
+                </p>
+              </Alert>
               <p>
-                The tRIF faucet dispense RIF Tokens only in RSK testnet.
-              </p>
-              <hr />
-              <p className="mb-0">
-                Connect Metamask to an RSK Testnet node. No node?: use the <a href="https://nodes.rsk.co" target="_blank">public nodes</a>.
-              </p>
-            </Alert>
-              <p>
-                faucet balance: {gettingBalance ? '...' : balance} tRIF 
-                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }}>reload</Button>)
+                faucet balance: {gettingBalance ? '...' : balance} tRIF
+                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }} disabled={actionsDisabled}>reload</Button>)
               </p>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Button variant='primary' onClick={dispense} disabled={dispensing}>{dispensing ? '...' : 'dispense tRIF'}</Button>
+              <Button variant='primary' onClick={dispense} disabled={actionsDisabled || dispensing}>{dispensing ? '...' : 'dispense tRIF'}</Button>
               <br />
               {errorDispense && `error: ${errorDispense}`}
-              {txDispense && `tx: ${txDispense}`}
+              {txDispense && <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'>{txDispense}</a>}
             </Col>
           </Row>
           <hr />
-
           <h5>Related links:</h5>
           <Row>
             <Col style={{ padding: 10 }} md={6} xs={12}>
               <Card>
                 <Card.Body>
-                  <Card.Title><a href="https://www.rsk.co/" target="_blank">RSK</a></Card.Title>
+                  <Card.Title><a href="https://www.rsk.co/" target="_blank" rel='noopener noreferrer'>RSK</a></Card.Title>
                   <ListGroup className="list-group-flush">
                     <ListGroupItem><a href='https://docs.rsk.co' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a></ListGroupItem>
                     <ListGroupItem><a href='https://faucet.testnet.rsk.co/' target='_blank' alt='libs' rel='noopener noreferrer'>tRBTC Faucet</a></ListGroupItem>
@@ -75,7 +83,7 @@ class App extends Component {
             <Col style={{ padding: 10 }} md={6} xs={12}>
               <Card>
                 <Card.Body>
-                  <Card.Title><a href="https://www.rifos.org/" target="_blank">RIF</a></Card.Title>
+                  <Card.Title><a href="https://www.rifos.org/" target="_blank" rel='noopener noreferrer'>RIF</a></Card.Title>
                   <ListGroup className="list-group-flush">
                     <ListGroupItem><a href='https://docs.rifos.org/' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Documentation</a></ListGroupItem>
                     <ListGroupItem><a href='https://docs.rifos.org/rif-whitepaper-en.pdf' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Whitepaper</a></ListGroupItem>
@@ -88,7 +96,7 @@ class App extends Component {
             <Col style={{ padding: 10 }} md={6} xs={12}>
               <Card>
                 <Card.Body>
-                  <Card.Title><a href="https://www.rifos.org/rif-name-service/" target="_blank">RIF Name Service</a></Card.Title>
+                  <Card.Title><a href="https://www.rifos.org/rif-name-service/" target="_blank" rel='noopener noreferrer'>RIF Name Service</a></Card.Title>
                   <ListGroup className="list-group-flush">
                     <ListGroupItem><a href='https://docs.rns.rifos.org/' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a></ListGroupItem>
                     <ListGroupItem><a href='https://docs.rns.rifos.org/Libs/' target='_blank' alt='libs' rel='noopener noreferrer'>Libraries</a></ListGroupItem>
@@ -100,7 +108,7 @@ class App extends Component {
             <Col style={{ padding: 10 }} md={6} xs={12}>
               <Card>
                 <Card.Body>
-                  <Card.Title><a href="https://www.rifos.org/rif-lumino-network/" target="_blank">RIF Lumino Network</a></Card.Title>
+                  <Card.Title><a href="https://www.rifos.org/rif-lumino-network/" target="_blank" rel='noopener noreferrer'>RIF Lumino Network</a></Card.Title>
                   <ListGroup className="list-group-flush">
                     <ListGroupItem><a href='https://explorer.lumino.rifos.org/' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Explorer</a></ListGroupItem>
                   </ListGroup>
@@ -108,7 +116,6 @@ class App extends Component {
               </Card>
             </Col>
           </Row>
-          
           <hr />
 
           <p>© 2019 RIF Labs Limited</p>

@@ -6,7 +6,6 @@ Under `/src/config.json` file, configure the token contract under `rif` key, and
 
 A sample faucet contract can be found in the Github Repository ["rif-faucet"](https://github.com/riflabs/rif-faucet).
 
-
 ## Available Scripts
 
 In the project directory, you can run:
@@ -18,6 +17,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
+
+#### Configure port
+
+Modiffy `PORT` flag in `.env` file.
 
 ### `npm test`
 

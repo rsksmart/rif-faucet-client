@@ -1,12 +1,13 @@
 import config from './config.json'
 import { requestBalance, receiveBalance, requestDispense, errorDispense, receiveDispense } from './actions';
+import Web3 from 'web3';
 
 export const getBalance = () => dispatch => {
   dispatch(requestBalance());
 
-  if (!window.web3 || window.ethereum.networkVersion !== config.networkId) return dispatch(receiveBalance('-'));
+  const web3 = new Web3(config.publicNode);
 
-  const rif = window.web3.eth.contract([
+  const rif = new web3.eth.Contract([
     {
       'constant': true,
       'inputs': [
@@ -26,49 +27,42 @@ export const getBalance = () => dispatch => {
       'stateMutability': 'view',
       'type': 'function'
     }
-  ]).at(config.rif);
+  ], config.rif);
 
-  return new Promise(resolve => {
-    return rif.balanceOf(config.faucet, (err, res) => {
-      const tokens = window.web3.fromWei(res.toNumber())
-      if (!err) return resolve(dispatch(receiveBalance(tokens)));
-    });
-  });
+  rif.methods.balanceOf(config.faucet).call()
+  .then(balance => dispatch(receiveBalance(web3.utils.fromWei(balance.toString()))))
+  .catch(e => console.log(e));
 };
 
 export const dispense = () => dispatch => {
   dispatch(requestDispense());
 
-  if (!window.web3 || window.ethereum.networkVersion !== config.networkId) return dispatch(errorDispense('Connect to RSK Testnet'));
+  if (!window.ethereum || window.ethereum.networkVersion !== config.networkId) return dispatch(errorDispense('Connect to RSK Testnet'));
 
-  return new Promise(resolve => {
-    return window.ethereum && window.ethereum.enable()
-    .then(account => {
-      const faucet = window.web3 && window.web3.eth.contract([
-        {
-          'constant': false,
-          'inputs': [
-            {
-              'name': 'to',
-              'type': 'address'
-            }
-          ],
-          'name': 'dispense',
-          'outputs': [],
-          'payable': false,
-          'stateMutability': 'nonpayable',
-          'type': 'function',
-          'signature': '0x5f746233'
-        }
-      ]).at('0xa98d30d3436f24886e0dd4bd440666dd1d140d5c');
+  window.ethereum.enable()
+  .then(accounts => {
+    const web3 = new Web3(window.ethereum, null, { defaultAccount: accounts[0], defaultGasPrice: 0 });
+    const faucet = new web3.eth.Contract([
+      {
+        'constant': false,
+        'inputs': [
+          {
+            'name': 'to',
+            'type': 'address'
+          }
+        ],
+        'name': 'dispense',
+        'outputs': [],
+        'payable': false,
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+        'signature': '0x5f746233'
+      }
+    ], config.faucet);
 
-
-      return faucet.dispense(account[0], (err, res) => {
-        if (err) return resolve(dispatch(errorDispense(err.message)));
-
-        return resolve(dispatch(receiveDispense(res)));
-      });
-    })
-    .catch(e => dispatch(errorDispense(e.message)));
-  });
+    faucet.methods.dispense(accounts[0]).send()
+    .on('transactionHash', hash => dispatch(receiveDispense(hash)))
+    .catch(error => dispatch(errorDispense(error.message)));
+  })
+  .catch(e => dispatch(errorDispense(e.message)));
 }

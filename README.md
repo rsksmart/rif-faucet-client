@@ -1,5 +1,26 @@
 # tRIF Faucet
 
+## Setup
+
+```sh
+git clone https://github.com/riflabs/rif-faucet-client.git
+cd rif-faucet-client
+yarn
+```
+
+## Run
+
+```sh
+yarn start
+```
+
+## Usage
+
+1. Install Metamask
+2. Connect Metamask to RSK Testnet
+  > Public node: https://public-node.testnet.rsk.co
+3. Click on `dispense`!
+
 ## Configuration file
 
 Under `/src/config.json` file, configure the token contract under `rif` key, and the faucet contract address under `faucet` key.
@@ -10,17 +31,13 @@ A sample faucet contract can be found in the Github Repository ["rif-faucet"](ht
 
 In the project directory, you can run:
 
-### `npm start`
+### `yarn start`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
-
-#### Configure port
-
-Modiffy `PORT` flag in `.env` file.
 
 ### `npm test`
 

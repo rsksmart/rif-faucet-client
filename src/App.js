@@ -12,8 +12,9 @@ class App extends Component {
   }
 
   componentDidMount () {
-    const { getBalance } = this.props;
+    const { getBalance, getNetwork } = this.props;
     getBalance();
+    getNetwork();
   }
 
   componentWillReceiveProps (newProps) {
@@ -27,11 +28,8 @@ class App extends Component {
   }
 
   render () {
-    const { gettingBalance, balance, getBalance, dispense, dispensing, errorDispense, txDispense } = this.props;
-
+    const { gettingBalance, balance, getBalance, dispense, dispensing, errorDispense, txDispense, gettingNetwork, network } = this.props;
     const showMetamaskAlert = !window.ethereum;
-    const showNetworkAlert =  !showMetamaskAlert && (window.ethereum && (window.ethereum.networkVersion !== config.networkId));
-    const actionsDisabled = showMetamaskAlert || showNetworkAlert;
 
     return (
       <div>
@@ -48,7 +46,7 @@ class App extends Component {
             </Col>
           </Row>
           {
-            actionsDisabled &&
+            (gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)) &&
             <Row>
               <Col>
                 <Alert variant="warning" show={showMetamaskAlert}>
@@ -57,7 +55,7 @@ class App extends Component {
                     <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>Download Metamask</a>
                   </p>
                 </Alert>
-                <Alert variant="warning" show={showNetworkAlert}>
+                <Alert variant="warning" show={!showMetamaskAlert && (gettingNetwork || (network !== undefined && network !== config.networkId)) }>
                   <Alert.Heading>Connect to RSK Testnet network.</Alert.Heading>
                   <p>
                     The tRIF faucet dispense RIF Tokens only in RSK testnet.
@@ -74,13 +72,13 @@ class App extends Component {
             <Col>
               <p>
                 faucet balance: {gettingBalance ? '...' : balance} tRIF
-                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }} disabled={actionsDisabled}>reload</Button>)
+                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }} disabled={gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)}>reload</Button>)
               </p>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Button variant='primary' onClick={dispense} disabled={actionsDisabled || dispensing}>{dispensing ? '...' : 'dispense tRIF'}</Button>
+              <Button variant='primary' onClick={dispense} disabled={ gettingNetwork || dispensing || (network !== undefined && network !== config.networkId) }>{dispensing ? '...' : 'dispense tRIF'}</Button>
               <br />
               {
                 errorDispense &&

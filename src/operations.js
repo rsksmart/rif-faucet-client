@@ -37,7 +37,8 @@ export const getBalance = () => dispatch => {
 export const dispense = () => dispatch => {
   dispatch(requestDispense());
 
-  if (!window.ethereum || window.ethereum.networkVersion !== config.networkId) return dispatch(errorDispense('Connect to RSK Testnet'));
+  if (!window.ethereum || (window.ethereum.networkVersion !== undefined && window.ethereum.networkVersion !== config.networkId))
+      return dispatch(errorDispense('Connect to RSK Testnet'));
 
   window.ethereum.enable()
   .then(accounts => {

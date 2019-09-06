@@ -30,7 +30,7 @@ class App extends Component {
     const { gettingBalance, balance, getBalance, dispense, dispensing, errorDispense, txDispense } = this.props;
 
     const showMetamaskAlert = !window.ethereum;
-    const showNetworkAlert =  !showMetamaskAlert && (window.ethereum && (window.ethereum.networkVersion !== config.networkId));
+    const showNetworkAlert =  !showMetamaskAlert && (window.ethereum.networkVersion !== undefined && window.ethereum.networkVersion !== config.networkId);
     const actionsDisabled = showMetamaskAlert || showNetworkAlert;
 
     return (

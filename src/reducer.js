@@ -1,11 +1,12 @@
-import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE } from './types';
+import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE, REQUEST_NETWORK, RECEIVE_NETWORK} from './types';
 
 const initialState = {
   gettingBalance: false,
   balance: null,
   dispensing: false,
   errorDispense: null,
-  txDispense: null
+  txDispense: null,
+  network: null
 }
 
 export const reducer = (state = initialState, action) => {
@@ -37,6 +38,16 @@ export const reducer = (state = initialState, action) => {
       dispensing: false,
       errorDispense: action.error,
       txDispense: null
+    }
+    case REQUEST_NETWORK: return {
+      ...state,
+      gettingNetwork: true,
+      network: null
+    }
+    case RECEIVE_NETWORK: return {
+      ...state,
+      gettingNetwork: false,
+      network: action.network
     }
     default: return state;
   }

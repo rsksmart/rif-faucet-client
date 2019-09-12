@@ -1,5 +1,5 @@
 import config from './config.json'
-import { requestBalance, receiveBalance, requestDispense, errorDispense, receiveDispense } from './actions';
+import { requestBalance, receiveBalance, requestDispense, errorDispense, receiveDispense, requestNetwork, receiveNetwork } from './actions';
 import Web3 from 'web3';
 
 export const getBalance = () => dispatch => {
@@ -36,8 +36,8 @@ export const getBalance = () => dispatch => {
 
 export const dispense = () => dispatch => {
   dispatch(requestDispense());
-
-  if (!window.ethereum || window.ethereum.networkVersion !== config.networkId) return dispatch(errorDispense('Connect to RSK Testnet'));
+  if (!window.ethereum || (window.ethereum.networkVersion !== undefined && window.ethereum.networkVersion !== config.networkId))
+      return dispatch(errorDispense('Connect to RSK Testnet'));
 
   window.ethereum.enable()
   .then(accounts => {
@@ -66,3 +66,18 @@ export const dispense = () => dispatch => {
   })
   .catch(e => dispatch(errorDispense(e.message)));
 }
+
+export const getNetwork = () => dispatch => {
+  dispatch(requestNetwork());
+  if (!window.web3) {
+    dispatch(receiveNetwork(undefined));
+    return;
+  }
+  window.web3.version.getNetwork((err,res) => {
+    if (err) {
+      dispatch(receiveNetwork(undefined));
+    }
+
+    dispatch(receiveNetwork(res));
+  });
+};

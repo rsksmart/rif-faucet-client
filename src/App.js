@@ -50,9 +50,12 @@ class App extends Component {
             <Row>
               <Col>
                 <Alert variant="warning" show={showMetamaskAlert}>
-                  <Alert.Heading>Get Metamask wallet</Alert.Heading>
+                  <Alert.Heading>Get Metamask or Nifty wallet</Alert.Heading>
                   <p>
                     <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>Download Metamask</a>
+                  </p>
+                  <p>
+                    <a href='https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid' target='_blank' rel='noopener noreferrer'>Download Nifty</a>
                   </p>
                 </Alert>
                 <Alert variant="warning" show={!showMetamaskAlert && (gettingNetwork || (network !== undefined && network !== config.networkId)) }>

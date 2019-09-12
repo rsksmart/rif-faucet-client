@@ -69,6 +69,10 @@ export const dispense = () => dispatch => {
 
 export const getNetwork = () => dispatch => {
   dispatch(requestNetwork());
+  if (!window.web3) {
+    dispatch(receiveNetwork(undefined));
+    return;
+  }
   window.web3.version.getNetwork((err,res) => {
     if (err) {
       dispatch(receiveNetwork(undefined));

@@ -46,7 +46,7 @@ class App extends Component {
             </Col>
           </Row>
           {
-            (gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)) &&
+            (showMetamaskAlert || gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)) &&
             <Row>
               <Col>
                 <Alert variant="warning" show={showMetamaskAlert}>

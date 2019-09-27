@@ -40,8 +40,8 @@ export const dispense = () => dispatch => {
       return dispatch(errorDispense('Connect to RSK Testnet'));
 
   window.ethereum.enable()
-  .then(accounts => {
-    const web3 = new Web3(window.ethereum, null, { defaultAccount: accounts[0], defaultGasPrice: 0 });
+  .then(accounts => {    
+    const web3 = new Web3(window.ethereum, null, { defaultAccount: accounts[0], defaultGasPrice: 59240000 });
     const faucet = new web3.eth.Contract([
       {
         'constant': false,

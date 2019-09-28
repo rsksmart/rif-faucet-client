@@ -39,10 +39,10 @@ export const dispense = () => dispatch => {
   if (!window.ethereum || (window.ethereum.networkVersion !== undefined && window.ethereum.networkVersion !== config.networkId))
       return dispatch(errorDispense('Connect to RSK Testnet'));
 
-  getMinimunGasPrice().then( gmp => {
+  getMinimunGasPrice().then( mgp => {
     window.ethereum.enable()
     .then(accounts => {      
-      const web3 = new Web3(window.ethereum, null, { defaultAccount: accounts[0], defaultGasPrice: gmp });
+      const web3 = new Web3(window.ethereum, null, { defaultAccount: accounts[0], defaultGasPrice: mgp });
       const faucet = new web3.eth.Contract([
         {
           'constant': false,

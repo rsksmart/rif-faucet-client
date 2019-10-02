@@ -37,12 +37,19 @@ export const getBalance = () => dispatch => {
 export const dispense = () => dispatch => {
   dispatch(requestDispense());
   if (!window.ethereum || (window.ethereum.networkVersion !== undefined && window.ethereum.networkVersion !== config.networkId))
-      return dispatch(errorDispense('Connect to RSK Testnet'));
+    return dispatch(errorDispense('Connect to RSK Testnet'));
 
-  getMinimunGasPrice().then( mgp => {
-    window.ethereum.enable()
-    .then(accounts => {      
-      const web3 = new Web3(window.ethereum, null, { defaultAccount: accounts[0], defaultGasPrice: mgp });
+  let web3;
+  let to;
+
+  window.ethereum.enable()
+    .then(accounts => {
+      to = accounts[0];
+      web3 = new Web3(window.ethereum, null, { defaultAccount: accounts[0] });
+    })
+    .then(() => web3.eth.getBlock('latest'))
+    .then(({ minimumGasPrice }) => minimumGasPrice < 1 ? 1 : Math.ceil(minimumGasPrice * 1.1))
+    .then(gasPrice => {
       const faucet = new web3.eth.Contract([
         {
           'constant': false,
@@ -61,12 +68,11 @@ export const dispense = () => dispatch => {
         }
       ], config.faucet);
 
-      faucet.methods.dispense(accounts[0]).send()
-      .on('transactionHash', hash => dispatch(receiveDispense(hash)))
-      .catch(error => dispatch(errorDispense(error.message)));
+      faucet.methods.dispense(to).send({ gasPrice })
+        .on('transactionHash', hash => dispatch(receiveDispense(hash)))
+        .catch(error => dispatch(errorDispense(error.message)));
     })
-  })
-  .catch(e => dispatch(errorDispense(e.message)));
+    .catch(e => dispatch(errorDispense(e.message)));
 }
 
 export const getNetwork = () => dispatch => {
@@ -83,13 +89,3 @@ export const getNetwork = () => dispatch => {
     dispatch(receiveNetwork(res));
   });
 };
-
-async function getMinimunGasPrice(){
-  const web3 = new Web3(config.publicNode);
-  var block = await web3.eth.getBlock("latest");  
-  if (block.minimumGasPrice <= 1) {
-    return 1;
-  } else {
-    return block.minimumGasPrice * 1.01;
-  }
-}

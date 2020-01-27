@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
 import config from './config.json';
-import { Alert, Navbar, Container, Row, Col, Button, Card, ListGroup, ListGroupItem } from 'react-bootstrap';
-import logo from './logo.svg';
+import { Alert, Container, Row, Col, Button } from 'react-bootstrap';
 
 class App extends Component {
   constructor (props) {
@@ -33,17 +31,19 @@ class App extends Component {
 
     return (
       <div>
-        <Navbar bg='dark'>
-          <Navbar.Brand href="#">
-            <img src={logo} height='40' className='d-inline-block align-top' alt='logo' />
-          </Navbar.Brand>
-        </Navbar>
+        <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
+          <div className="container">
+            <a className="navbar-brand" href="/">
+              <img src="assets/img/logo.svg" className="logo" alt="logo" />
+            </a>
+          </div>
+        </nav>
         <Container style={{ textAlign: 'center' }}>
           <Row>
-            <Col>
-              <h1>rif testnet faucet</h1>
+            <div className="col-lg-12 main-title-box">
+              <h1><b>rif testnet faucet</b></h1>
               <h3><small>Get tRIF tokens and test your RIFOS implementations</small></h3>
-            </Col>
+            </div>
           </Row>
           {
             (showMetamaskAlert || gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)) &&
@@ -104,60 +104,42 @@ class App extends Component {
               </p>
             </Col>
           </Row>
-          <hr />
-          <h5>Related links:</h5>
-          <Row>
-            <Col style={{ padding: 10 }} md={6} xs={12}>
-              <Card>
-                <Card.Body>
-                  <Card.Title><a href="https://www.rsk.co/" target="_blank" rel='noopener noreferrer'>RSK</a></Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem><a href='https://docs.rsk.co' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a></ListGroupItem>
-                    <ListGroupItem><a href='https://faucet.testnet.rsk.co/' target='_blank' alt='libs' rel='noopener noreferrer'>tRBTC Faucet</a></ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col style={{ padding: 10 }} md={6} xs={12}>
-              <Card>
-                <Card.Body>
-                  <Card.Title><a href="https://www.rifos.org/" target="_blank" rel='noopener noreferrer'>RIF</a></Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem><a href='https://docs.rifos.org/' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Documentation</a></ListGroupItem>
-                    <ListGroupItem><a href='https://docs.rifos.org/rif-whitepaper-en.pdf' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Whitepaper</a></ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-          <Row>
-            <Col style={{ padding: 10 }} md={6} xs={12}>
-              <Card>
-                <Card.Body>
-                  <Card.Title><a href="https://www.rifos.org/rif-name-service/" target="_blank" rel='noopener noreferrer'>RIF Name Service</a></Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem><a href='https://docs.rns.rifos.org/' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a></ListGroupItem>
-                    <ListGroupItem><a href='https://docs.rns.rifos.org/Libs/' target='_blank' alt='libs' rel='noopener noreferrer'>Libraries</a></ListGroupItem>
-                    <ListGroupItem><a href='https://rns.rifos.org/' target='_blank' alt='libs' rel='noopener noreferrer'>Manager</a></ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-              </Card>
-            </Col>
-            <Col style={{ padding: 10 }} md={6} xs={12}>
-              <Card>
-                <Card.Body>
-                  <Card.Title><a href="https://www.rifos.org/rif-lumino-network/" target="_blank" rel='noopener noreferrer'>RIF Lumino Network</a></Card.Title>
-                  <ListGroup className="list-group-flush">
-                    <ListGroupItem><a href='https://explorer.lumino.rifos.org/' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Explorer</a></ListGroupItem>
-                  </ListGroup>
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-          <hr />
-
-          <p>© 2019 RIF Labs Limited</p>
         </Container>
+        <footer>
+          <div className="footer-top">
+            <Container>
+              <Row>
+                <div className="col-lg-12">
+                  <img src="assets/img/powered_by_iov.svg" className="img-fluid powered_by" alt="powered_by" />
+                </div>
+                <div className="col-lg-3">
+                  <span className="footer-title mb-3">What is RIF?</span>
+                  <p className="mb-5">RIF goal is to enable Decentralized Sharing Economies to flourish in order to empower and protect the value of individuals.</p>
+                </div>
+                <div className="col-lg-2">
+                  <b><a href="https://www.rsk.co/" target="_blank" rel='noopener noreferrer'>RSK</a></b>
+                  <a href='https://developers.rsk.co' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a>
+                  <a href='https://faucet.testnet.rsk.co/' target='_blank' alt='libs' rel='noopener noreferrer'>tRBTC Faucet</a>
+                </div>
+                <div className="col-lg-2">
+                  <b><a href="https://www.rifos.org/" target="_blank" rel='noopener noreferrer'>RIF</a></b>
+                  <a href='https://developers.rsk.co/rif' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Documentation</a>
+                  <a href='https://www.rifos.org/assets/whitepapers/rif-whitepaper-en.pdf' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Whitepaper</a>
+                </div>
+                <div className="col-lg-2">
+                  <b><a href="https://www.rifos.org/rif-name-service/" target="_blank" rel='noopener noreferrer'>RIF Name Service</a></b>
+                  <a href='https://developers.rsk.co/rif/rns' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a>
+                  <a href='https://manager.rns.rifos.org/' target='_blank' alt='libs' rel='noopener noreferrer'>Manager</a>
+                </div>
+                <div className="col-lg-3">
+                  <b><a href="https://www.rifos.org/rif-lumino-network/" target="_blank" rel='noopener noreferrer'>RIF Lumino Network</a></b>
+                  <a href='https://explorer.lumino.rifos.org/' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Explorer</a>
+                  <a href='https://developers.rsk.co/rif/lumino' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Docs</a>
+                </div>
+              </Row>
+            </Container>
+          </div>
+        </footer>
       </div>
     );
   }

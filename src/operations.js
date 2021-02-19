@@ -74,3 +74,8 @@ export const dispense = () => dispatch => {
     })
     .catch(e => dispatch(errorDispense(e.message)));
 }
+
+export const getAccount = (provider) => {
+  const web3 = new Web3(provider)
+  return web3.eth.getAccounts().then(accounts => accounts[0].toLowerCase())
+}

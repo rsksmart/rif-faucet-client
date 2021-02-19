@@ -1,12 +1,21 @@
 import React, { Component } from 'react';
-import config from './config.json';
+import config from './config-local.json';
 import { Alert, Container, Row, Col, Button } from 'react-bootstrap';
+import rLogin from './rLogin';
+import DispenseComponent from './components/DispenseComponent';
+import './faucet.css'
 
 class App extends Component {
   constructor (props) {
     super(props);
-    this.state = { showError: false };
+    this.state = {
+      account: null,
+      web3Provider: null,
+      showError: false
+    };
+
     this.hideError = this.hideError.bind(this);
+    this.connectRLogin = this.connectRLogin.bind(this);
   }
 
   componentDidMount () {
@@ -24,9 +33,23 @@ class App extends Component {
     this.setState({ showError: false });
   }
 
+  connectRLogin () {
+    rLogin.connect()
+      .then(response => {
+        this.setState({ 
+          ...this.state,
+          web3Provider: response.provider,
+        })
+
+        this.props.getAccount(response.provider)
+          .then(account => this.setState({ ...this.state, account }))
+      })
+      .catch(err => console.log('ERROR', err))
+  }
+
   render () {
     const { gettingBalance, balance, getBalance, dispense, dispensing } = this.props;
-    const { web3Provider } = this.state;
+    const { web3Provider, account } = this.state;
     const showMetamaskAlert = !window.ethereum;
 
     return (
@@ -81,18 +104,9 @@ class App extends Component {
           </Row>
           <Row>
             <Col>
-              <Button variant='primary' onClick={dispense} disabled={ gettingNetwork || dispensing || (network !== undefined && network !== config.networkId) }>{dispensing ? '...' : 'dispense tRIF'}</Button>
-              <br />
-              {
-                errorDispense &&
-                <Alert variant='danger' show={this.state.showError} dismissible onClose={this.hideError}>{errorDispense}</Alert>
-              }
-              {
-                txDispense &&
-                <Alert variant='light'>
-                  <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'>{txDispense}</a>
-                </Alert>
-              }
+              {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
+              
+              {!!web3Provider && <DispenseComponent account={account} dispense={dispense} />}
             </Col>
           </Row>
           <hr />

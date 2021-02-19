@@ -10,9 +10,8 @@ class App extends Component {
   }
 
   componentDidMount () {
-    const { getBalance, getNetwork } = this.props;
+    const { getBalance } = this.props;
     getBalance();
-    getNetwork();
   }
 
   componentWillReceiveProps (newProps) {
@@ -26,7 +25,8 @@ class App extends Component {
   }
 
   render () {
-    const { gettingBalance, balance, getBalance, dispense, dispensing, errorDispense, txDispense, gettingNetwork, network } = this.props;
+    const { gettingBalance, balance, getBalance, dispense, dispensing } = this.props;
+    const { web3Provider } = this.state;
     const showMetamaskAlert = !window.ethereum;
 
     return (
@@ -41,12 +41,12 @@ class App extends Component {
         <Container style={{ textAlign: 'center' }}>
           <Row>
             <div className="col-lg-12 main-title-box">
-              <h1><b>rif testnet faucet</b></h1>
-              <h3><small>Get tRIF tokens and test your RIFOS implementations</small></h3>
+              <h1>rif testnet faucet</h1>
+              <p>Get tRIF tokens and test your RIFOS implementations</p>
             </div>
           </Row>
           {
-            (showMetamaskAlert || gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)) &&
+            (showMetamaskAlert ||  dispensing) &&
             <Row>
               <Col>
                 <Alert variant="warning" show={showMetamaskAlert}>
@@ -58,7 +58,7 @@ class App extends Component {
                     <a href='https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid' target='_blank' rel='noopener noreferrer'>Download Nifty</a>
                   </p>
                 </Alert>
-                <Alert variant="warning" show={!showMetamaskAlert && (gettingNetwork || (network !== undefined && network !== config.networkId)) }>
+                <Alert variant="warning" show={!showMetamaskAlert}>
                   <Alert.Heading>Connect to RSK Testnet network.</Alert.Heading>
                   <p>
                     The tRIF faucet dispense RIF Tokens only in RSK testnet.
@@ -75,7 +75,7 @@ class App extends Component {
             <Col>
               <p>
                 faucet balance: {gettingBalance ? '...' : balance} tRIF
-                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }} disabled={gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)}>reload</Button>)
+                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }} disabled={dispensing}>reload</Button>)
               </p>
             </Col>
           </Row>

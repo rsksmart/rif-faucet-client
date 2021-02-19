@@ -1,4 +1,4 @@
-import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE, REQUEST_NETWORK, RECEIVE_NETWORK } from "./types";
+import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE } from "./types";
 
 export const requestBalance = () => ({
   type: REQUEST_BALANCE
@@ -21,13 +21,4 @@ export const receiveDispense = tx => ({
 export const errorDispense = error => ({
   type: ERROR_DISPENSE,
   error
-});
-
-export const requestNetwork = () => ({
-  type: REQUEST_NETWORK
-});
-
-export const receiveNetwork = network => ({
-  type: RECEIVE_NETWORK,
-  network
 });

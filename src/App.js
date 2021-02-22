@@ -44,20 +44,23 @@ class App extends Component {
         })
 
         this.props.getAccount(response.provider)
-          .then(account => {
-            this.setState({ ...this.state, account })
+          .then(account => this.setState({ ...this.state, account }))
+        
+        this.props.getUserBalance(response.provider)
+            .then(gas => this.setState({ ...this.state, gas }))
 
-            this.props.getUserBalance(response.provider, account)
-              .then(gas => this.setState({ ...this.state, gas }))
-              .catch(err => console.log(err))
-          })
+        // reset all if something changes:
+        const initState = ({ ...this.state, web3Provider: null, gas: null });
+        response.provider.on('accountsChanged', () => this.setState(initState));
+        response.provider.on('chainChanged', () => this.setState(initState));
+        response.provider.on('disconnect', () => this.setState(initState));
       })
       .catch(err => console.log('ERROR', err))
   }
 
   render () {
-    const { balance, getBalance, dispense, gas } = this.props;
-    const { web3Provider, account } = this.state;
+    const { balance, getBalance, dispense } = this.props;
+    const { web3Provider, account, gas } = this.state;
 
     return (
       <div>

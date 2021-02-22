@@ -33,10 +33,9 @@ export const getAccount = (provider) => {
   return web3.eth.getAccounts().then(accounts => accounts[0].toLowerCase())
 }
 
-export const getUserBalance = (provider, address) =>
-  new Promise((resolve, reject) => {
-    const web3 = new Web3(provider)
-    web3.eth.getBalance(address, function(error,result) {
-      error ? reject(error) : resolve(result)
-    })
-  })
+export const getUserBalance = (provider) => {
+  const web3 = new Web3(provider)
+  return new Promise((resolve, reject) =>
+    getAccount(provider)
+      .then(account => web3.eth.getBalance(account, (error,result) => error ? reject(error) : resolve(parseInt(result)))))
+}

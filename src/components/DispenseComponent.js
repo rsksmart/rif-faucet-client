@@ -1,31 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Alert, Form } from 'react-bootstrap'
 
-const DispenseComponent = ({ account, dispense }) => {
-  const [dispensing, setDispensing] = useState(false)
+const DispenseComponent = ({ account, dispense, dispensing, txDispense, errorDispense }) => {
   const [input, setInput] = useState(null)
-
-  const resposneInitialState = { type: 'light', message: null }
-  const [response, setResponse] = useState(resposneInitialState)
 
   useEffect(() => {
     setInput(account)
   }, [account])
-
-  const handleDispense = () => {
-    setDispensing(true)
-
-    dispense(input)
-      .then((response) => {
-        console.log('response', response)
-        setResponse({ type: 'info', message: 'Dispensing!' })
-        setDispensing(false)
-      })
-      .catch((error) => {
-        setResponse({ type: 'warning', message: error.message })
-        setDispensing(false)
-      })
-  }
 
   return (
     <div>
@@ -42,9 +23,12 @@ const DispenseComponent = ({ account, dispense }) => {
           onChange={evt => setInput(evt.target.value)}
           className="accountInput" />
       )}
-      <Button variant='primary' onClick={handleDispense} disabled={dispensing}>{dispensing ? '...' : 'dispense tRIF'}</Button>
+      <Button variant='primary' onClick={() => dispense(input)} disabled={dispensing}>{dispensing ? '...' : 'dispense tRIF'}</Button>
 
-      <Alert variant={response.type} show={!!response.message} dismissible onClose={() => setResponse(resposneInitialState)}>{response.message}</Alert>
+      <Alert variant="danger" show={!!errorDispense}>{errorDispense}</Alert>
+      <Alert variant='light' show={!!txDispense}>
+        <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'>{txDispense}</a>
+      </Alert>
     </div>
   )
 }

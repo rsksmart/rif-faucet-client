@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import config from './config-local.json';
 import { Alert, Container, Row, Col, Button } from 'react-bootstrap';
 import rLogin from './rLogin';
-import DispenseComponent from './components/DispenseComponent';
+import DispenseContainer from './components/DispenseContainer';
 import './faucet.css'
 
 class App extends Component {
@@ -106,7 +106,8 @@ class App extends Component {
             <Col>
               {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
               
-              {!!web3Provider && <DispenseComponent account={account} dispense={(to) => dispense(web3Provider, account, to)} />}
+              {!!web3Provider &&
+                <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />}
             </Col>
           </Row>
           <hr />

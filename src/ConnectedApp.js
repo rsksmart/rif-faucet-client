@@ -2,7 +2,11 @@ import App from './App';
 import { getBalance, getAccount, dispense } from './operations';
 import { connect } from 'react-redux';
 
-const mapStateToProps = state => state;
+const mapStateToProps = state => ({
+  dispensing: state.dispensing,
+  txDispense: state.txDispense,
+  errorDispense: state.errorDispense
+});
 
 const mapDispatchToProps = dispatch => ({
   getBalance: () => dispatch(getBalance()),

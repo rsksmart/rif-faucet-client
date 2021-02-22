@@ -3,10 +3,7 @@ import { getFaucetBalance, getUserBalance, getAccount, dispense } from './operat
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
-  balance: state.balance,
-  dispensing: state.dispensing,
-  txDispense: state.txDispense,
-  errorDispense: state.errorDispense
+  balance: state.balance
 });
 
 const mapDispatchToProps = dispatch => ({

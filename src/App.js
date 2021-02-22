@@ -73,19 +73,18 @@ class App extends Component {
               </p>
             </Col>
           </Row>
-          
-            <Row>
-              <Col>
-                {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
-                {web3Provider && (
-                  (gas !== 0)
-                    ? <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />
-                    : <Alert variant="warning">
-                        <p>You do not have enough gas to request RIF. First, use the <a href='https://faucet.rsk.co/' target='_blank' rel='noopener noreferrer'>rBTC faucet</a> to get gas, then return here to get RIF.</p>
-                      </Alert>
-                )}
-              </Col>
-            </Row>
+          <Row>
+            <Col>
+              {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
+              {web3Provider && (
+                (gas !== 0)
+                  ? <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />
+                  : <Alert variant="warning">
+                      <p>You do not have enough gas to request RIF. First, use the <a href='https://faucet.rsk.co/' target='_blank' rel='noopener noreferrer'>rBTC faucet</a> to get gas, then return here to get RIF.</p>
+                    </Alert>
+              )}
+            </Col>
+          </Row>
           <hr />
           <Row>
             <Col>

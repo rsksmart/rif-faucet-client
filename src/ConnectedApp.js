@@ -1,13 +1,13 @@
 import App from './App';
-import { getBalance, dispense, getAccount } from './operations';
+import { getBalance, getAccount, dispense } from './operations';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => state;
 
 const mapDispatchToProps = dispatch => ({
   getBalance: () => dispatch(getBalance()),
-  dispense: () => dispatch(dispense()),
-  getAccount: (provider) => getAccount(provider)
+  getAccount: (provider) => getAccount(provider),
+  dispense: (provider, account, to) => dispatch(dispense(provider, account, to))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

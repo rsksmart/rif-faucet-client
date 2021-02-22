@@ -17,11 +17,12 @@ const DispenseComponent = ({ account, dispense }) => {
 
     dispense(input)
       .then((response) => {
-        setResponse({ type: 'info', message: 'Dispensing!'})
+        console.log('response', response)
+        setResponse({ type: 'info', message: 'Dispensing!' })
         setDispensing(false)
       })
-      .catch(() => {
-        setResponse({ type: 'error', message: 'An error happened!'})
+      .catch((error) => {
+        setResponse({ type: 'warning', message: error.message })
         setDispensing(false)
       })
   }

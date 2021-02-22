@@ -48,7 +48,7 @@ class App extends Component {
   }
 
   render () {
-    const { gettingBalance, balance, getBalance, dispense, dispensing } = this.props;
+    const { gettingBalance, balance, getBalance, dispense } = this.props;
     const { web3Provider, account } = this.state;
     const showMetamaskAlert = !window.ethereum;
 
@@ -69,7 +69,7 @@ class App extends Component {
             </div>
           </Row>
           {
-            (showMetamaskAlert ||  dispensing) &&
+            (showMetamaskAlert) &&
             <Row>
               <Col>
                 <Alert variant="warning" show={showMetamaskAlert}>
@@ -98,7 +98,7 @@ class App extends Component {
             <Col>
               <p>
                 faucet balance: {gettingBalance ? '...' : balance} tRIF
-                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }} disabled={dispensing}>reload</Button>)
+                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }}>reload</Button>)
               </p>
             </Col>
           </Row>
@@ -106,7 +106,7 @@ class App extends Component {
             <Col>
               {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
               
-              {!!web3Provider && <DispenseComponent account={account} dispense={() => Promise.resolve('!!')} />}
+              {!!web3Provider && <DispenseComponent account={account} dispense={(to) => dispense(web3Provider, account, to)} />}
             </Col>
           </Row>
           <hr />

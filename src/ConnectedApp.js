@@ -1,5 +1,5 @@
 import App from './App';
-import { getBalance, getAccount, dispense } from './operations';
+import { getFaucetBalance, getUserBalance, getAccount, dispense } from './operations';
 import { connect } from 'react-redux';
 
 const mapStateToProps = state => ({
@@ -10,8 +10,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getBalance: () => dispatch(getBalance()),
+  getBalance: () => dispatch(getFaucetBalance()),
   getAccount: (provider) => getAccount(provider),
+  getUserBalance: (provider, account) => getUserBalance(provider, account),
   dispense: (provider, account, to) => dispatch(dispense(provider, account, to))
 });
 

@@ -3,6 +3,7 @@ import config from './config.json';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import rLogin from './rLogin';
 import DispenseContainer from './components/DispenseContainer';
+import UserBalanceComponent from './components/UserBalanceComponent'
 import './faucet.css'
 
 class App extends Component {
@@ -10,6 +11,7 @@ class App extends Component {
     super(props);
     this.state = {
       account: null,
+      gas: null,
       web3Provider: null,
       showError: false
     };
@@ -42,13 +44,19 @@ class App extends Component {
         })
 
         this.props.getAccount(response.provider)
-          .then(account => this.setState({ ...this.state, account }))
+          .then(account => {
+            this.setState({ ...this.state, account })
+
+            this.props.getUserBalance(response.provider, account)
+              .then(gas => this.setState({ ...this.state, gas }))
+              .catch(err => console.log(err))
+          })
       })
       .catch(err => console.log('ERROR', err))
   }
 
   render () {
-    const { balance, getBalance, dispense } = this.props;
+    const { balance, getBalance, dispense, gas } = this.props;
     const { web3Provider, account } = this.state;
 
     return (
@@ -79,6 +87,7 @@ class App extends Component {
             <Col>
               {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
               
+              {!!web3Provider && <UserBalanceComponent gas={gas} />}
               {!!web3Provider &&
                 <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />}
             </Col>

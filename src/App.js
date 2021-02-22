@@ -12,27 +12,15 @@ class App extends Component {
     this.state = {
       account: null,
       gas: null,
-      web3Provider: null,
-      showError: false
+      web3Provider: null
     };
 
-    this.hideError = this.hideError.bind(this);
     this.connectRLogin = this.connectRLogin.bind(this);
   }
 
   componentDidMount () {
     const { getBalance } = this.props;
     getBalance();
-  }
-
-  componentWillReceiveProps (newProps) {
-    if (newProps.errorDispense !== this.props.errorDispense && newProps.errorDispense) {
-      this.setState({ showError: true });
-    }
-  }
-
-  hideError () {
-    this.setState({ showError: false });
   }
 
   connectRLogin () {

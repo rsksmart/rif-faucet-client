@@ -2,10 +2,8 @@ import RLogin from '@rsksmart/rlogin'
 
 const rLogin = new RLogin({
   cacheProvider: false,
-  providerOptions: {
-    injected: {}
-  },
-  supportedChains: [31, 8548]
+  providerOptions: {},
+  supportedChains: [31]
 })
 
 export default rLogin

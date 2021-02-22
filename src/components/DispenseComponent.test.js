@@ -46,7 +46,7 @@ describe('DispenseComponent', () => {
 
   it('handles success', () => {
     const wrapper = mount(<DispenseComponent {...initProps} txDispense='0x999999' />)
-    expect(wrapper.find('.alert').text()).toBe('Dispensing, see the transaction onthe explorer!')
+    expect(wrapper.find('.alert').text()).toBe('Dispensing, see the transaction on the explorer.')
   })
 
   it('handles errors', () => {

@@ -1,4 +1,4 @@
-import config from './config-local.json'
+import config from './config.json'
 import { requestBalance, receiveBalance, requestDispense, receiveDispense, errorDispense } from './actions';
 import Web3 from 'web3';
 import abis from './abis.json';

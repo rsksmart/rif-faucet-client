@@ -7,7 +7,10 @@ describe('DispenseComponent', () => {
   const account = '0x123456789'
   const initProps = {
     account,
-    dispense: jest.fn()
+    dispense: jest.fn(),
+    dispensing: false,
+    txDispense: null,
+    errorDispense: null
   }
 
   it('renders the component', () => {
@@ -39,5 +42,15 @@ describe('DispenseComponent', () => {
       await wrapper.find('button').simulate('click')
       expect(dispense).toBeCalledWith(account)
     })
+  })
+
+  it('handles success', () => {
+    const wrapper = mount(<DispenseComponent {...initProps} txDispense='0x999999' />)
+    expect(wrapper.find('.alert').text()).toBe('Dispensing, see the transaction onthe explorer!')
+  })
+
+  it('handles errors', () => {
+    const wrapper = mount(<DispenseComponent {...initProps} errorDispense='An error' />)
+    expect(wrapper.find('.alert').text()).toBe('An error')
   })
 })

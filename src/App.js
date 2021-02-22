@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import config from './config-local.json';
+import config from './config.json';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import rLogin from './rLogin';
 import DispenseContainer from './components/DispenseContainer';

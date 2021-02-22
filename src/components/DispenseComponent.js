@@ -25,9 +25,12 @@ const DispenseComponent = ({ account, dispense, dispensing, txDispense, errorDis
       )}
       <Button variant='primary' onClick={() => dispense(input)} disabled={dispensing}>{dispensing ? '...' : 'dispense tRIF'}</Button>
 
-      <Alert variant="danger" show={!!errorDispense}>{errorDispense}</Alert>
-      <Alert variant='light' show={!!txDispense}>
-        <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'>{txDispense}</a>
+      <Alert variant={errorDispense ? 'danger' : 'success'} show={!!txDispense || !!errorDispense}>
+        {txDispense && (
+        <p>Dispensing, see the transaction on 
+          <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'>the explorer!</a>
+        </p>)}
+        {errorDispense}
       </Alert>
     </div>
   )

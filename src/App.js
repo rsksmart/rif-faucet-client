@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import config from './config.json';
-import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
 import rLogin from './rLogin';
 import DispenseContainer from './components/DispenseContainer';
-import UserBalanceComponent from './components/UserBalanceComponent'
 import './faucet.css'
 
 class App extends Component {
@@ -74,15 +73,19 @@ class App extends Component {
               </p>
             </Col>
           </Row>
-          <Row>
-            <Col>
-              {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
-              
-              {!!web3Provider && <UserBalanceComponent gas={gas} />}
-              {!!web3Provider &&
-                <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />}
-            </Col>
-          </Row>
+          
+            <Row>
+              <Col>
+                {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
+                {web3Provider && (
+                  (gas !== 0)
+                    ? <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />
+                    : <Alert variant="warning">
+                        <p>You do not have enough gas to request RIF. First, use the <a href='https://faucet.rsk.co/' target='_blank' rel='noopener noreferrer'>rBTC faucet</a> to get gas, then return here to get RIF.</p>
+                      </Alert>
+                )}
+              </Col>
+            </Row>
           <hr />
           <Row>
             <Col>

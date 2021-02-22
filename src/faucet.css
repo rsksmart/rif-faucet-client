@@ -20,3 +20,7 @@ input.accountInput {
   margin: 10px auto;
   max-width: 500px;
 }
+
+.alert {
+  margin-top: 15px;
+}

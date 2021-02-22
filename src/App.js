@@ -106,7 +106,7 @@ class App extends Component {
             <Col>
               {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
               
-              {!!web3Provider && <DispenseComponent account={account} dispense={dispense} />}
+              {!!web3Provider && <DispenseComponent account={account} dispense={() => Promise.resolve('!!')} />}
             </Col>
           </Row>
           <hr />

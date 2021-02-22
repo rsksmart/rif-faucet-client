@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Alert, Form } from 'react-bootstrap'
 
-const DispenseComponent = ({ account }) => {
+const DispenseComponent = ({ account, dispense }) => {
   const [dispensing, setDispensing] = useState(false)
   const [input, setInput] = useState(null)
 
@@ -15,8 +15,15 @@ const DispenseComponent = ({ account }) => {
   const handleDispense = () => {
     setDispensing(true)
 
-    setResponse({ type: 'error', message: 'An error happened!'})
-    setDispensing(false)
+    dispense(input)
+      .then((response) => {
+        setResponse({ type: 'info', message: 'Dispensing!'})
+        setDispensing(false)
+      })
+      .catch(() => {
+        setResponse({ type: 'error', message: 'An error happened!'})
+        setDispensing(false)
+      })
   }
 
   return (
@@ -28,6 +35,7 @@ const DispenseComponent = ({ account }) => {
       </Form.Label>
       {input && (
         <Form.Control
+          id="dispenseTo"
           type="text"
           value={input}
           onChange={evt => setInput(evt.target.value)}

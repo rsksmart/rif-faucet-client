@@ -1,7 +1,6 @@
 import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE} from './types';
 
 const initialState = {
-  gettingBalance: false,
   balance: null,
   dispensing: false,
   errorDispense: null,
@@ -12,12 +11,10 @@ export const reducer = (state = initialState, action) => {
   switch (action.type) {
     case REQUEST_BALANCE: return {
       ...state,
-      gettingBalance: true,
       balance: null
     }
     case RECEIVE_BALANCE: return {
       ...state,
-      gettingBalance: false,
       balance: action.balance
     }
     case REQUEST_DISPENSE: return {

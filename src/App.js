@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import config from './config-local.json';
-import { Alert, Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button } from 'react-bootstrap';
 import rLogin from './rLogin';
 import DispenseContainer from './components/DispenseContainer';
 import './faucet.css'
@@ -48,9 +48,8 @@ class App extends Component {
   }
 
   render () {
-    const { gettingBalance, balance, getBalance, dispense } = this.props;
+    const { balance, getBalance, dispense } = this.props;
     const { web3Provider, account } = this.state;
-    const showMetamaskAlert = !window.ethereum;
 
     return (
       <div>
@@ -68,36 +67,10 @@ class App extends Component {
               <p>Get tRIF tokens and test your RIFOS implementations</p>
             </div>
           </Row>
-          {
-            (showMetamaskAlert) &&
-            <Row>
-              <Col>
-                <Alert variant="warning" show={showMetamaskAlert}>
-                  <Alert.Heading>Get Metamask or Nifty wallet</Alert.Heading>
-                  <p>
-                    <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>Download Metamask</a>
-                  </p>
-                  <p>
-                    <a href='https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid' target='_blank' rel='noopener noreferrer'>Download Nifty</a>
-                  </p>
-                </Alert>
-                <Alert variant="warning" show={!showMetamaskAlert}>
-                  <Alert.Heading>Connect to RSK Testnet network.</Alert.Heading>
-                  <p>
-                    The tRIF faucet dispense RIF Tokens only in RSK testnet.
-                  </p>
-                  <hr />
-                  <p className="mb-0">
-                    Connect Metamask to an RSK Testnet node. No node? Use the <a href="https://nodes.rsk.co" target="_blank" rel='noopener noreferrer'>public nodes</a>.
-                  </p>
-                </Alert>
-              </Col>
-            </Row>
-          }
           <Row>
             <Col>
               <p>
-                faucet balance: {gettingBalance ? '...' : balance} tRIF
+                faucet balance: {balance || '...'} tRIF
                 (<Button variant='link' onClick={getBalance} style={{ padding: 0 }}>reload</Button>)
               </p>
             </Col>

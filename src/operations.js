@@ -5,7 +5,6 @@ import abis from './abis.json';
 
 export const getBalance = () => dispatch => {
   dispatch(requestBalance());
-
   const web3 = new Web3(config.publicNode);
   const rif = new web3.eth.Contract(abis.rifAbi, config.rif);
 

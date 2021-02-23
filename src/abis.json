@@ -1,0 +1,42 @@
+{
+   "faucetAbi":[
+      {
+         "constant":false,
+         "inputs":[
+            {
+               "name":"to",
+               "type":"address"
+            }
+         ],
+         "name":"dispense",
+         "outputs":[
+            
+         ],
+         "payable":false,
+         "stateMutability":"nonpayable",
+         "type":"function",
+         "signature":"0x5f746233"
+      }
+   ],
+   "rifAbi":[
+      {
+         "constant":true,
+         "inputs":[
+            {
+               "name":"_owner",
+               "type":"address"
+            }
+         ],
+         "name":"balanceOf",
+         "outputs":[
+            {
+               "name":"",
+               "type":"uint256"
+            }
+         ],
+         "payable":false,
+         "stateMutability":"view",
+         "type":"function"
+      }
+   ]
+}

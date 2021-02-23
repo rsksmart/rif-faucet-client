@@ -1,33 +1,53 @@
 import React, { Component } from 'react';
 import config from './config.json';
-import { Alert, Container, Row, Col, Button } from 'react-bootstrap';
+import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
+import rLogin from './rLogin';
+import DispenseContainer from './components/DispenseContainer';
+import './faucet.css'
 
 class App extends Component {
   constructor (props) {
     super(props);
-    this.state = { showError: false };
-    this.hideError = this.hideError.bind(this);
+    this.state = {
+      account: null,
+      gas: null,
+      web3Provider: null
+    };
+
+    this.connectRLogin = this.connectRLogin.bind(this);
   }
 
   componentDidMount () {
-    const { getBalance, getNetwork } = this.props;
+    const { getBalance } = this.props;
     getBalance();
-    getNetwork();
   }
 
-  componentWillReceiveProps (newProps) {
-    if (newProps.errorDispense !== this.props.errorDispense && newProps.errorDispense) {
-      this.setState({ showError: true });
-    }
-  }
+  connectRLogin () {
+    rLogin.connect()
+      .then(response => {
+        this.setState({ 
+          ...this.state,
+          web3Provider: response.provider,
+        })
 
-  hideError () {
-    this.setState({ showError: false });
+        this.props.getAccount(response.provider)
+          .then(account => this.setState({ ...this.state, account }))
+        
+        this.props.getUserBalance(response.provider)
+            .then(gas => this.setState({ ...this.state, gas }))
+
+        // reset all if something changes:
+        const initState = ({ ...this.state, web3Provider: null, gas: null });
+        response.provider.on('accountsChanged', () => this.setState(initState));
+        response.provider.on('chainChanged', () => this.setState(initState));
+        response.provider.on('disconnect', () => this.setState(initState));
+      })
+      .catch(err => console.log('ERROR', err))
   }
 
   render () {
-    const { gettingBalance, balance, getBalance, dispense, dispensing, errorDispense, txDispense, gettingNetwork, network } = this.props;
-    const showMetamaskAlert = !window.ethereum;
+    const { balance, getBalance, dispense } = this.props;
+    const { web3Provider, account, gas } = this.state;
 
     return (
       <div>
@@ -41,58 +61,28 @@ class App extends Component {
         <Container style={{ textAlign: 'center' }}>
           <Row>
             <div className="col-lg-12 main-title-box">
-              <h1><b>rif testnet faucet</b></h1>
-              <h3><small>Get tRIF tokens and test your RIFOS implementations</small></h3>
+              <h1>rif testnet faucet</h1>
+              <p>Get tRIF tokens and test your RIFOS implementations</p>
             </div>
           </Row>
-          {
-            (showMetamaskAlert || gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)) &&
-            <Row>
-              <Col>
-                <Alert variant="warning" show={showMetamaskAlert}>
-                  <Alert.Heading>Get Metamask or Nifty wallet</Alert.Heading>
-                  <p>
-                    <a href='https://metamask.io/' target='_blank' rel='noopener noreferrer'>Download Metamask</a>
-                  </p>
-                  <p>
-                    <a href='https://chrome.google.com/webstore/detail/nifty-wallet/jbdaocneiiinmjbjlgalhcelgbejmnid' target='_blank' rel='noopener noreferrer'>Download Nifty</a>
-                  </p>
-                </Alert>
-                <Alert variant="warning" show={!showMetamaskAlert && (gettingNetwork || (network !== undefined && network !== config.networkId)) }>
-                  <Alert.Heading>Connect to RSK Testnet network.</Alert.Heading>
-                  <p>
-                    The tRIF faucet dispense RIF Tokens only in RSK testnet.
-                  </p>
-                  <hr />
-                  <p className="mb-0">
-                    Connect Metamask to an RSK Testnet node. No node? Use the <a href="https://nodes.rsk.co" target="_blank" rel='noopener noreferrer'>public nodes</a>.
-                  </p>
-                </Alert>
-              </Col>
-            </Row>
-          }
           <Row>
             <Col>
               <p>
-                faucet balance: {gettingBalance ? '...' : balance} tRIF
-                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }} disabled={gettingNetwork || dispensing || (network !== undefined && network !== config.networkId)}>reload</Button>)
+                faucet balance: {balance || '...'} tRIF
+                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }}>reload</Button>)
               </p>
             </Col>
           </Row>
           <Row>
             <Col>
-              <Button variant='primary' onClick={dispense} disabled={ gettingNetwork || dispensing || (network !== undefined && network !== config.networkId) }>{dispensing ? '...' : 'dispense tRIF'}</Button>
-              <br />
-              {
-                errorDispense &&
-                <Alert variant='danger' show={this.state.showError} dismissible onClose={this.hideError}>{errorDispense}</Alert>
-              }
-              {
-                txDispense &&
-                <Alert variant='light'>
-                  <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'>{txDispense}</a>
-                </Alert>
-              }
+              {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
+              {web3Provider && (
+                (gas !== 0)
+                  ? <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />
+                  : <Alert variant="warning">
+                      <p>You do not have enough gas to request RIF. First, use the <a href='https://faucet.rsk.co/' target='_blank' rel='noopener noreferrer'>rBTC faucet</a> to get gas, then return here to get RIF.</p>
+                    </Alert>
+              )}
             </Col>
           </Row>
           <hr />

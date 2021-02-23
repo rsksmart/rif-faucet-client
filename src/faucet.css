@@ -1,0 +1,30 @@
+h1 {
+  color: #008CFF;
+  font-weight: 700 !important;
+}
+
+button:disabled, button[disabled], button:disabled:hover, button[disabled]:hover {
+  color: #fff;
+  background-color: #999999 !important;
+  border-color: #999999 !important;
+  box-shadow: none;
+  font-weight: 500 !important;
+}
+
+.btn-primary:hover {
+  box-shadow: none !important;
+  border-color: #008CFF
+}
+
+input.accountInput {
+  margin: 10px auto;
+  max-width: 500px;
+}
+
+.alert {
+  margin-top: 15px;
+}
+
+.fixed-top {
+  z-index: -1;
+}

@@ -24,3 +24,7 @@ input.accountInput {
 .alert {
   margin-top: 15px;
 }
+
+.fixed-top {
+  z-index: -1;
+}

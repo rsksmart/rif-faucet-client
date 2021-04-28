@@ -1628,27 +1628,34 @@
     estree-walker "^1.0.1"
     picomatch "^2.2.2"
 
-"@rsksmart/ipfs-cpinner-client@0.1.1-beta.9":
-  version "0.1.1-beta.9"
-  resolved "https://registry.yarnpkg.com/@rsksmart/ipfs-cpinner-client/-/ipfs-cpinner-client-0.1.1-beta.9.tgz#391f7827ea59b4bcde519d9a8c10deddf2f062eb"
-  integrity sha512-06oJdPHpoE5bJs09U/06nRawH/XmX0r2tebd2TdZ1t1jOxl9HlrMP8xVJKZIcThz/5mq/AuR/gNvCtg1UDG45A==
+"@rsksmart/ipfs-cpinner-client@0.1.1":
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/@rsksmart/ipfs-cpinner-client/-/ipfs-cpinner-client-0.1.1.tgz#f67ad2420ca200e0de0c1eb1029c93e20760dcd7"
+  integrity sha512-XX/K7+pV10IumvYJWbI/bw6qVeFkWkPej2ipBw6k5NTDPZdgLpX5Uz2Jt9shQHbrR3JuenhXDLazwnaVoL4sow==
   dependencies:
     axios "^0.21.1"
     buffer "^6.0.3"
+    crypto-js "^4.0.0"
     did-jwt "^4.6.2"
     eth-sig-util "^3.0.0"
 
-"@rsksmart/rlogin@^1.0.0-beta.1":
-  version "1.0.0-beta.1"
-  resolved "https://registry.yarnpkg.com/@rsksmart/rlogin/-/rlogin-1.0.0-beta.1.tgz#49ce76bdd1124be3be94472f4f47950d5fbbdb2b"
-  integrity sha512-5hPpRJsOqbRyk9/11kqpOBz0V8K502mPACweQo8m/yfeEzWIJI72XpmBhS1ETJH3Hg69v4BArTJqHdb8168H/Q==
+"@rsksmart/rlogin@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rlogin/-/rlogin-1.0.5.tgz#cdcc974fbf9a47b9c06d4d0a37ec7ddb9be6c27e"
+  integrity sha512-oB4VeZfmX1AaUNvEJHZHPiv0YuEATLjQeOD38+McKp3jj9iGjVzxPmc8OMbeD2BZS7okQOEAOMvfjEggoW1rjQ==
   dependencies:
-    "@rsksmart/ipfs-cpinner-client" "0.1.1-beta.9"
+    "@rsksmart/ipfs-cpinner-client" "0.1.1"
+    "@rsksmart/vc-json-schemas-parser" "^1.0.0"
     "@types/styled-components" "^5.1.3"
     axios "^0.21.1"
     ethr-did-resolver "^3.0.2"
     web3-eth-personal "^1.3.0"
     web3modal "^1.9.1"
+
+"@rsksmart/vc-json-schemas-parser@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@rsksmart/vc-json-schemas-parser/-/vc-json-schemas-parser-1.0.0.tgz#4259cf5326758d0c8039151a070dbe83074c6bfd"
+  integrity sha512-NvZpkGE+pEQpakTuhlR49bS/b42nrqNASEUDfwDuXlF3xRR9Aqn0gtjYEC10DCiZWvyEHeHTaN/FM22HvNo1nQ==
 
 "@sinonjs/commons@^1.7.0":
   version "1.8.2"
@@ -4279,6 +4286,11 @@ crypto-browserify@^3.11.0:
     public-encrypt "^4.0.0"
     randombytes "^2.0.0"
     randomfill "^1.0.3"
+
+crypto-js@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.0.0.tgz#2904ab2677a9d042856a2ea2ef80de92e4a36dcc"
+  integrity sha512-bzHZN8Pn+gS7DQA6n+iUmBfl0hO5DJq++QP3U6uTucDtk/0iGpXd/Gg7CGR0p8tJhofJyaKoWBuJI4eAO00BBg==
 
 crypto-random-string@^1.0.0:
   version "1.0.0"

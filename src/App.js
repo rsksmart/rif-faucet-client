@@ -3,6 +3,7 @@ import config from './config.json';
 import { Container, Row, Col, Button, Alert } from 'react-bootstrap';
 import rLogin from './rLogin';
 import DispenseContainer from './components/DispenseContainer';
+import AddRIFTokenComponent from './components/AddRIFTokenComponent';
 import './faucet.css'
 
 class App extends Component {
@@ -39,7 +40,6 @@ class App extends Component {
         // reset all if something changes:
         const initState = ({ ...this.state, web3Provider: null, gas: null });
         response.provider.on('accountsChanged', () => this.setState(initState));
-        response.provider.on('chainChanged', () => this.setState(initState));
         response.provider.on('disconnect', () => this.setState(initState));
       })
       .catch(err => console.log('ERROR', err))
@@ -90,6 +90,14 @@ class App extends Component {
             <Col>
               <p>
                 tRIF address: <a href={`https://explorer.testnet.rsk.co/address/${config.rif}`} target='_blank' rel='noopener noreferrer'>{config.rif}</a><br />
+              </p>
+              {web3Provider && web3Provider.isMetaMask && !web3Provider.isNiftyWallet && <AddRIFTokenComponent />}
+            </Col>
+          </Row>
+          <hr />
+          <Row>
+            <Col>
+              <p>
                 faucet address: <a href={`https://explorer.testnet.rsk.co/address/${config.faucet}`} target='_blank' rel='noopener noreferrer'>{config.faucet}</a>
               </p>
             </Col>

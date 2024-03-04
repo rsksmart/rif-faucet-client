@@ -22,7 +22,7 @@ export const Footer = () => (
           target='_blank'
           rel='noreferrer noopener'
         >
-          <p>About Rootstock Labs</p>
+          <p>About IOV Labs</p>
         </a>
         <a
           href='https://developers.rsk.co/'

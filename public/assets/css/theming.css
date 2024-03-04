@@ -180,6 +180,9 @@ body {
 
 /*home*/
 
+.main-title-box {
+    text-align: center;
+}
 .main-title-box .bajada {
     font-size: 32px;
     margin-top: -15px;

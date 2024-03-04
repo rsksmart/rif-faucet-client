@@ -37,5 +37,8 @@ export const getUserBalance = (provider) => {
   const web3 = new Web3(provider)
   return new Promise((resolve, reject) =>
     getAccount(provider)
-      .then(account => web3.eth.getBalance(account, (error,result) => error ? reject(error) : resolve(parseInt(result)))))
+      .then(account => web3.eth.getBalance(account))
+      .then(result => resolve(parseInt(result)))
+      .catch(error => reject(error))
+  )
 }

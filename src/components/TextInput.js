@@ -19,6 +19,8 @@ export const TextInput = ({
   rightText,
   onRightTextClick = () => {},
   inputColorVariant = 'primary',
+  onChange = () => {},
+  isReadOnly = true,
 }) => {
   const onRightClick = useCallback(() => onRightTextClick(name), [name])
   
@@ -26,7 +28,13 @@ export const TextInput = ({
     <FormGroup style={styles.formGroup} className='TextInputFormGroup'>
       <FormLabel style={styles.label}>{label}</FormLabel>
       <div style={{ position: 'relative' }}>
-        <FormControl type='input'  readOnly name={name} value={value} style={{ 
+        <FormControl 
+          type='input'
+          readOnly={isReadOnly} 
+          name={name}
+          value={value}
+          onChange={onChange}
+          style={{ 
           ...styles.input,
           ...INPUT_COLOR_VARIANT[inputColorVariant]
         }} />

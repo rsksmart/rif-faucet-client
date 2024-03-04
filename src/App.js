@@ -18,6 +18,7 @@ class App extends Component {
     };
 
     this.connectRLogin = this.connectRLogin.bind(this);
+    this.onDispenseToChange = this.onDispenseToChange.bind(this);
   }
 
   componentDidMount () {
@@ -34,7 +35,7 @@ class App extends Component {
         })
 
         this.props.getAccount(response.provider)
-          .then(account => this.setState({ ...this.state, account }))
+          .then(account => this.setState({ ...this.state, account, to: account }))
         
         this.props.getUserBalance(response.provider)
             .then(gas => this.setState({ ...this.state, gas }))
@@ -47,6 +48,12 @@ class App extends Component {
       .catch(err => console.log('ERROR', err))
   }
 
+  onDispenseToChange ({ target }) {
+    this.setState({
+      ...this.state,
+      to: target.value
+    })
+  }
   onOpen (name) {
     const URL_MAP = {
       'faucet_address': config.faucet,
@@ -56,7 +63,7 @@ class App extends Component {
   }
   render () {
     const { balance, getBalance, dispense } = this.props;
-    const { web3Provider, account, gas } = this.state;
+    const { web3Provider, account, gas, to } = this.state;
 
     return (
       <div>
@@ -95,13 +102,20 @@ class App extends Component {
               </Row>
               <Row style={{ marginTop: '2em' }}>
                 <Col>
-                  <TextInput name='your_address' label='Your Address' value={account ?? ''} inputColorVariant='secondary' />
+                  <TextInput 
+                    name='dispense_to' 
+                    label='Dispense to' 
+                    value={to ?? ''} 
+                    inputColorVariant='secondary'
+                    onChange={this.onDispenseToChange}
+                    isReadOnly={false}
+                  />
                 </Col>
               </Row>
               <Row>
                 <Col>
                   {(gas !== 0)
-                      ? <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />
+                      ? <DispenseContainer account={account} dispense={() => dispense(web3Provider, account, to)} />
                       : <Alert variant="warning">
                         <p>You do not have enough gas to request RIF. First, use the <a href='https://faucet.rsk.co/' target='_blank' rel='noopener noreferrer'>rBTC faucet</a> to get gas, then return here to get RIF.</p>
                       </Alert>

@@ -1,6 +1,12 @@
 h1 {
-  color: #008CFF;
+  color: black;
   font-weight: 700 !important;
+  font-size: 46px;
+}
+
+.rif-description {
+  font-weight: 400;
+  font-size: 16px;
 }
 
 button:disabled, button[disabled], button:disabled:hover, button[disabled]:hover {

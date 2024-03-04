@@ -9,7 +9,7 @@ export const getFaucetBalance = () => dispatch => {
   const rif = new web3.eth.Contract(abis.rifAbi, config.rif.toLowerCase());
 
   rif.methods.balanceOf(config.faucet.toLowerCase()).call()
-    .then(balance => dispatch(receiveBalance(web3.utils.fromWei(balance.toString()))))
+    .then(balance => dispatch(receiveBalance(web3.utils.fromWei(balance.toString(), 'ether'))))
     .catch(e => console.log(e));
 };
 

@@ -10,7 +10,7 @@ export const Footer = () => (
           rel='noreferrer noopener'
         >
           {/*<img src='assets/img/powered_by.svg' alt='Powered by IOV Labs' />*/}
-          Build by Rootstock Labs
+          Built by RootstockLabs
         </a>
         {/*  Powered by*/}
       </div>

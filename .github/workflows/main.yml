@@ -1,7 +1,6 @@
 name: RIF faucet deploy to prod
 on:
-  # push:
-  pull_request:
+  push:
     branches:
       - 'master'
 

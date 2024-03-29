@@ -3,13 +3,14 @@ import React from "react";
 export const Footer = () => (
   <footer>
     <div style={styles.divContainer}>
-      <div>
+      <div style={styles.divInfo}>
         <a
-          href='https://www.iovlabs.org'
+          href='https://rootstocklabs.com'
           target='_blank'
           rel='noreferrer noopener'
         >
-          <img src='assets/img/powered_by.svg' alt='Powered by IOV Labs' />
+          {/*<img src='assets/img/powered_by.svg' alt='Powered by IOV Labs' />*/}
+          Build by Rootstock Labs
         </a>
         {/*  Powered by*/}
       </div>
@@ -18,11 +19,11 @@ export const Footer = () => (
       >
         {/*  Documents */}
         <a
-          href='https://rootstock.io/'
+          href='https://rootstocklabs.com/'
           target='_blank'
           rel='noreferrer noopener'
         >
-          <p>About IOV Labs</p>
+          <p>About Rootstock Labs</p>
         </a>
         <a
           href='https://developers.rsk.co/'

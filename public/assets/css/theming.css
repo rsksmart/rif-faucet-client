@@ -6,11 +6,11 @@
 /* BODY */
 
 body {
-    font-family: 'Rubik', sans-serif;
+    font-family: 'Sora', sans-serif;
     color: #000000;
     font-weight: 300;
     font-size: 16px;
-    padding-top: 150px;
+    padding-top: 68px;
 }
 
 .row {
@@ -25,7 +25,9 @@ body {
 /* NAV*/
 
 .navbar {
-    padding: 2rem 1rem 0.5rem;
+    margin-left: 60px;
+    padding-left: 0;
+    padding-top: 35px;
 }
 
 .navbar-light .navbar-nav .nav-link {
@@ -178,6 +180,9 @@ body {
 
 /*home*/
 
+.main-title-box {
+    text-align: center;
+}
 .main-title-box .bajada {
     font-size: 32px;
     margin-top: -15px;
@@ -247,89 +252,20 @@ body {
     position: relative;
     top: 2px;
 }
+/* Footer */
 
+footer {
+    margin-left: 60px;
+    margin-right: 60px;
+    margin-top: 60px;
+}
 
-
-
-
-/*footer*/
-
-footer,
-footer a,
+footer .social-media > * {
+    margin-right: 16px;
+}
 footer p {
-    color: #FFFFFF;
-    font-size: 14px;
-}
-
-footer a {
-    display: block;
-    font-size: 16px;
-}
-
-footer a:hover {
-    color: #FFFFFF;
-    text-decoration: none;
+    font-size: 10px;
     font-weight: 500;
-}
-
-footer p {
-    line-height: 22px;
-}
-
-footer p,
-footer a {
-    margin-bottom: 0.2rem;
-}
-
-footer .footer-top {
-    background: #008CFF;
-    padding: 50px 0;
-}
-
-footer .footer-top .col-lg-4 {
-    padding-right: 80px;
-}
-
-footer::before {
-    content: '';
-    width: 100%;
-    height: 200px;
-    background: url(../img/blue_shape.png);
-    background-position: center top;
-    background-repeat: no-repeat;
-    background-size: cover;
-    display: block;
-    position: relative;
-    top: 125px;
-}
-
-.powered_by {
-    width: 250px;
-    height: auto;
-    margin-bottom: 30px;
-}
-
-.footer-title {
-    font-weight: 700;
-    font-size: 16px;
-    display: block;
-}
-
-footer .form-control-reverse {
-    color: #FFFFFF;
-    font-size: 14px;
-}
-
-footer .form-control-reverse::-webkit-input-placeholder {
-    font-size: 14px;
-}
-
-footer .form-control-reverse:-ms-input-placeholder {
-    font-size: 14px;
-}
-
-footer .form-control-reverse::placeholder {
-    font-size: 14px;
 }
 
 .custom-mt-1 {
@@ -390,4 +326,12 @@ footer .form-control-reverse::placeholder {
     .navbar-collapse ul {
         height: 100vh;
     }
+}
+
+/* Container Faucet */
+
+.container-faucet {
+    max-width: 461px;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }

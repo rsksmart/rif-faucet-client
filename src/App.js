@@ -5,6 +5,8 @@ import rLogin from './rLogin';
 import DispenseContainer from './components/DispenseContainer';
 import AddRIFTokenComponent from './components/AddRIFTokenComponent';
 import './faucet.css'
+import { TextInput } from "./components/TextInput";
+import { Footer } from "./components/Footer";
 
 class App extends Component {
   constructor (props) {
@@ -16,6 +18,7 @@ class App extends Component {
     };
 
     this.connectRLogin = this.connectRLogin.bind(this);
+    this.onDispenseToChange = this.onDispenseToChange.bind(this);
   }
 
   componentDidMount () {
@@ -32,7 +35,7 @@ class App extends Component {
         })
 
         this.props.getAccount(response.provider)
-          .then(account => this.setState({ ...this.state, account }))
+          .then(account => this.setState({ ...this.state, account, to: account }))
         
         this.props.getUserBalance(response.provider)
             .then(gas => this.setState({ ...this.state, gas }))
@@ -45,99 +48,84 @@ class App extends Component {
       .catch(err => console.log('ERROR', err))
   }
 
+  onDispenseToChange ({ target }) {
+    this.setState({
+      ...this.state,
+      to: target.value
+    })
+  }
+  onOpen (name) {
+    const URL_MAP = {
+      'faucet_address': config.faucet,
+      'trif_address': config.rif,
+    }
+    window.open(`https://explorer.testnet.rsk.co/address/${URL_MAP[name]}`, '_blank', 'noopener noreferrer')
+  }
   render () {
     const { balance, getBalance, dispense } = this.props;
-    const { web3Provider, account, gas } = this.state;
+    const { web3Provider, account, gas, to } = this.state;
 
     return (
       <div>
         <nav className="navbar navbar-expand-md navbar-light bg-light fixed-top">
-          <div className="container">
+          <div>
             <a className="navbar-brand" href="/">
-              <img src="assets/img/logo.svg" className="logo" alt="logo" />
+              <img src="assets/img/rif_new.svg" className="logo" alt="logo" />
             </a>
           </div>
         </nav>
-        <Container style={{ textAlign: 'center' }}>
+        <Container className='container-faucet'>
           <Row>
             <div className="col-lg-12 main-title-box">
-              <h1>rif testnet faucet</h1>
-              <p>Get tRIF tokens and test your RIFOS implementations</p>
+              <h1>RIF Testnet Faucet</h1>
+              <p className='rif-description'>Get RIF tokens and test your RIFOS implementations</p>
             </div>
           </Row>
           <Row>
             <Col>
-              <p>
-                faucet balance: {balance || '...'} tRIF
-                (<Button variant='link' onClick={getBalance} style={{ padding: 0 }}>reload</Button>)
-              </p>
+              <TextInput name='balance' label='Balance' rightText='RELOAD' value={balance ?? ''} onRightTextClick={getBalance} />
+              {!web3Provider && <Button block onClick={this.connectRLogin} size='lg'>CONNECT YOUR WALLET</Button>}
             </Col>
           </Row>
           <Row>
             <Col>
-              {!web3Provider && <Button variant='primary' onClick={this.connectRLogin}>Connect Wallet</Button>}
-              {web3Provider && (
-                (gas !== 0)
-                  ? <DispenseContainer account={account} dispense={(to) => dispense(web3Provider, account, to)} />
-                  : <Alert variant="warning">
-                      <p>You do not have enough gas to request RIF. First, use the <a href='https://faucet.rsk.co/' target='_blank' rel='noopener noreferrer'>rBTC faucet</a> to get gas, then return here to get RIF.</p>
-                    </Alert>
-              )}
+              <TextInput name='faucet_address' label='Faucet Address' rightText='OPEN' value={config.faucet} inputColorVariant='secondary' onRightTextClick={this.onOpen} />
+              <TextInput name='trif_address' label='TRIF Address' rightText='OPEN' value={config.rif} inputColorVariant='secondary' onRightTextClick={this.onOpen} />
             </Col>
           </Row>
-          <hr />
-          <Row>
-            <Col>
-              <p>
-                tRIF address: <a href={`https://explorer.testnet.rsk.co/address/${config.rif}`} target='_blank' rel='noopener noreferrer'>{config.rif}</a><br />
-              </p>
-              {web3Provider && web3Provider.isMetaMask && !web3Provider.isNiftyWallet && <AddRIFTokenComponent />}
-            </Col>
-          </Row>
-          <hr />
-          <Row>
-            <Col>
-              <p>
-                faucet address: <a href={`https://explorer.testnet.rsk.co/address/${config.faucet}`} target='_blank' rel='noopener noreferrer'>{config.faucet}</a>
-              </p>
-            </Col>
-          </Row>
-        </Container>
-        <footer>
-          <div className="footer-top">
-            <Container>
+          {web3Provider && web3Provider.isMetaMask && !web3Provider.isNiftyWallet && (
+            <>
               <Row>
-                <div className="col-lg-12">
-                  <img src="assets/img/powered_by_iov.svg" className="img-fluid powered_by" alt="powered_by" />
-                </div>
-                <div className="col-lg-3">
-                  <span className="footer-title mb-3">What is RIF?</span>
-                  <p className="mb-5">RIF goal is to enable Decentralized Sharing Economies to flourish in order to empower and protect the value of individuals.</p>
-                </div>
-                <div className="col-lg-2">
-                  <b><a href="https://www.rsk.co/" target="_blank" rel='noopener noreferrer'>RSK</a></b>
-                  <a href='https://developers.rsk.co' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a>
-                  <a href='https://faucet.testnet.rsk.co/' target='_blank' alt='libs' rel='noopener noreferrer'>tRBTC Faucet</a>
-                </div>
-                <div className="col-lg-2">
-                  <b><a href="https://www.rifos.org/" target="_blank" rel='noopener noreferrer'>RIF</a></b>
-                  <a href='https://developers.rsk.co/rif' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Documentation</a>
-                  <a href='https://www.rifos.org/assets/whitepapers/rif-whitepaper-en.pdf' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Whitepaper</a>
-                </div>
-                <div className="col-lg-2">
-                  <b><a href="https://www.rifos.org/rif-name-service/" target="_blank" rel='noopener noreferrer'>RIF Name Service</a></b>
-                  <a href='https://developers.rsk.co/rif/rns' target='_blank' alt='libs' rel='noopener noreferrer'>Documentation</a>
-                  <a href='https://manager.rns.rifos.org/' target='_blank' alt='libs' rel='noopener noreferrer'>Manager</a>
-                </div>
-                <div className="col-lg-3">
-                  <b><a href="https://www.rifos.org/rif-lumino-network/" target="_blank" rel='noopener noreferrer'>RIF Lumino Network</a></b>
-                  <a href='https://explorer.lumino.rifos.org/' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Explorer</a>
-                  <a href='https://developers.rsk.co/rif/lumino' target='_blank' alt='rif_whitepaper' rel='noopener noreferrer'>Docs</a>
-                </div>
+                <Col>
+                  <AddRIFTokenComponent />
+                </Col>
               </Row>
-            </Container>
-          </div>
-        </footer>
+              <Row style={{ marginTop: '2em' }}>
+                <Col>
+                  <TextInput 
+                    name='dispense_to' 
+                    label='Dispense to' 
+                    value={to ?? ''} 
+                    inputColorVariant='secondary'
+                    onChange={this.onDispenseToChange}
+                    isReadOnly={false}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  {(gas !== 0)
+                      ? <DispenseContainer account={account} dispense={() => dispense(web3Provider, account, to)} />
+                      : <Alert variant="warning">
+                        <p>You do not have enough gas to request RIF. First, use the <a href='https://faucet.rsk.co/' target='_blank' rel='noopener noreferrer'>rBTC faucet</a> to get gas, then return here to get RIF.</p>
+                      </Alert>
+                  }
+                </Col>
+              </Row>
+            </>
+          )}
+        </Container>
+        <Footer />
       </div>
     );
   }

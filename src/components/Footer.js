@@ -8,14 +8,15 @@ export const Footer = () => (
           href='https://rootstocklabs.com'
           target='_blank'
           rel='noreferrer noopener'
+          style={{ display: 'flex', flexDirection: 'column', color: 'black' }}
         >
-          {/*<img src='assets/img/powered_by.svg' alt='Powered by IOV Labs' />*/}
-          Built by RootstockLabs
+          <span style={{ fontWeight: 400 }}>Built by <span style={{ fontWeight: 'bold', fontFamily: 'Sora', fontSize: 14 }}>RootstockLabs</span></span>
+          <span style={{ fontSize: 7 }}>Copyright © {new Date().getFullYear()} RootstockLabs. All rights reserved.</span>
         </a>
         {/*  Powered by*/}
       </div>
       <div
-        style={styles.divInfo}
+        style={styles.secondDiv}
       >
         {/*  Documents */}
         <a
@@ -79,12 +80,14 @@ export const Footer = () => (
 )
 
 const styles = {
-  divContainer: { display: 'flex', justifyContent: 'space-between' },
+  divContainer: { display: 'grid', gridTemplateColumns: '1.05fr 0.85fr 1fr' },
   divInfo: {
-    display: 'flex',
-    justifyContent: 'space-around',
     color: 'black',
     fontSize: 10,
+  },
+  secondDiv: {
+    display: 'flex',
+    justifyContent: 'space-around',
     columnGap: '2em'
-  }
+  },
 }

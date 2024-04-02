@@ -260,6 +260,10 @@ footer {
     margin-top: 60px;
 }
 
+footer .social-media {
+    text-align: right;
+}
+
 footer .social-media > * {
     margin-right: 16px;
 }

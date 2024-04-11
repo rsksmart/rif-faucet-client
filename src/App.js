@@ -78,7 +78,7 @@ class App extends Component {
           <Row>
             <div className="col-lg-12 main-title-box">
               <h1>RIF Testnet Faucet</h1>
-              <p className='rif-description'>Get RIF tokens and test your RIFOS implementations</p>
+              <p className='rif-description'>Get RIF Tokens To Test Your Dapps</p>
             </div>
           </Row>
           <Row>

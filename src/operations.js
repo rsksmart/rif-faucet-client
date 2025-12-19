@@ -1,5 +1,5 @@
 import config from './config.json'
-import { requestBalance, receiveBalance, requestDispense, receiveDispense, errorDispense } from './actions';
+import { requestBalance, receiveBalance, requestDispense, receiveDispense, errorDispense, confirmDispense } from './actions';
 import Web3 from 'web3';
 import abis from './abis.json';
 
@@ -13,6 +13,26 @@ export const getFaucetBalance = () => dispatch => {
     .catch(e => console.log(e));
 };
 
+const pollTransactionConfirmation = (web3, txHash, onConfirmed, onError) => {
+  const interval = setInterval(() => {
+    web3.eth.getTransactionReceipt(txHash)
+      .then(receipt => {
+        if (!receipt) return;
+
+        clearInterval(interval);
+        if (receipt.status) {
+          onConfirmed();
+        } else {
+          onError(new Error('Transaction failed'));
+        }
+      })
+      .catch(error => {
+        clearInterval(interval);
+        onError(error);
+      });
+  }, 3000);
+};
+
 export const dispense = (provider, account, to) => dispatch => {
   dispatch(requestDispense());
 
@@ -24,8 +44,11 @@ export const dispense = (provider, account, to) => dispatch => {
     .then(gasPrice =>
       faucet.methods.dispense(to)
         .send({ gasPrice, from: account })
-        .on('transactionHash', hash => dispatch(receiveDispense(hash))))
-        .catch(error => dispatch(errorDispense(error.message)));
+        .on('transactionHash', hash => {
+          dispatch(receiveDispense(hash));
+          pollTransactionConfirmation(web3, hash, () => dispatch(confirmDispense(hash)), (error) => dispatch(errorDispense(error.message)));
+        }))
+    .catch(error => dispatch(errorDispense(error.message)));
 }
 
 export const getAccount = (provider) => {

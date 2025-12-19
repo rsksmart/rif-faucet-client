@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Alert } from 'react-bootstrap'
 
-const DispenseComponent = ({ account, dispense, dispensing, txDispense, errorDispense }) => (
+const DispenseComponent = ({ account, dispense, dispensing, txDispense, txDispenseCompleted, errorDispense }) => (
   <>
     <Button block onClick={() => dispense(account)} disabled={dispensing} size='lg'>
       {dispensing && 'DISPENSING TRIF...'}
@@ -9,10 +9,14 @@ const DispenseComponent = ({ account, dispense, dispensing, txDispense, errorDis
     </Button>
     <Alert variant={errorDispense ? 'danger' : 'success'} show={!!txDispense || !!errorDispense}>
       {txDispense && (
-        <p>Dispensing, see the transaction on
-          <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'> the explorer.</a>
-        </p>)}
-      {errorDispense}
+        <p>
+          {txDispenseCompleted ? 'RIF Dispensed, ' : 'Transaction pending, '}
+          <a href={`https://explorer.testnet.rsk.co/tx/${txDispense}`} target='_blank' rel='noopener noreferrer'>
+            {'see on the explorer'}
+          </a>
+        </p>
+      )}
+      {errorDispense && <p>{errorDispense}</p>}
     </Alert>
   </>
 )

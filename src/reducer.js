@@ -1,10 +1,11 @@
-import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE} from './types';
+import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE, CONFIRM_DISPENSE} from './types';
 
 const initialState = {
   balance: null,
   dispensing: false,
   errorDispense: null,
   txDispense: null,
+  txDispenseCompleted: false,
 }
 
 export const reducer = (state = initialState, action) => {
@@ -21,19 +22,28 @@ export const reducer = (state = initialState, action) => {
       ...state,
       dispensing: true,
       errorDispense: null,
-      txDispense: null
+      txDispense: null,
+      txDispenseCompleted: false,
     }
     case RECEIVE_DISPENSE: return {
       ...state,
       dispensing: false,
       errorDispense: null,
-      txDispense: action.tx
+      txDispense: action.tx,
+      txDispenseCompleted: false,
+    }
+    case CONFIRM_DISPENSE: return {
+      ...state,
+      errorDispense: null,
+      txDispense: action.tx,
+      txDispenseCompleted: true,
     }
     case ERROR_DISPENSE: return {
       ...state,
       dispensing: false,
       errorDispense: action.error,
-      txDispense: null
+      txDispense: null,
+      txDispenseCompleted: false,
     }
     default: return state;
   }

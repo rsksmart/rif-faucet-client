@@ -1,4 +1,4 @@
-import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE } from "./types";
+import { REQUEST_BALANCE, RECEIVE_BALANCE, REQUEST_DISPENSE, RECEIVE_DISPENSE, ERROR_DISPENSE, CONFIRM_DISPENSE } from "./types";
 
 export const requestBalance = () => ({
   type: REQUEST_BALANCE
@@ -15,6 +15,11 @@ export const requestDispense = () => ({
 
 export const receiveDispense = tx => ({
   type: RECEIVE_DISPENSE,
+  tx
+});
+
+export const confirmDispense = tx => ({
+  type: CONFIRM_DISPENSE,
   tx
 });
 
